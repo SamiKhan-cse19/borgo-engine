@@ -36,9 +36,4 @@ public:
 	int getHeight() const;
 	sf::Vector2f getPosition() const;
 
-	// Operator overloading
-	World& operator = (World w) const {
-		return w;
-	}
-
 };
