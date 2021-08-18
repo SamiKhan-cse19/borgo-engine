@@ -1,13 +1,24 @@
 #include "World.h"
+
 World::World(float blockSize, unsigned int width, unsigned int height, sf::Vector2f position)
 	: blockSize(blockSize), width(width), height(height), position(position) {
 	worldMap = std::vector<std::vector<bool>>(height, std::vector<bool>(width, 0));
 	colorMap = std::vector<std::vector<sf::Color>>(height, std::vector < sf::Color >(width, sf::Color::Black));
 
-	blockShape.setSize(sf::Vector2f(blockSize, blockSize));
-
 	sf::Vector2f resolution(blockSize * width, blockSize * height);
-	if (!texture.create(resolution.x, resolution.y))
+	if(!texture.create(resolution.x, resolution.y))
+		exit(1);
+}
+World::World(const World& other) 
+	: blockSize(other.blockSize), width(other.width), height(other.height), position(other.position),
+	worldMap(other.worldMap), colorMap(other.colorMap)
+{
+	/**
+	* @Copy Constructor
+	* -sf::RenderTexture type texture object has deleted copy constructor
+	* -new texture object of same dimension is created
+	*/
+	if (!texture.create(blockSize * width, blockSize * height))
 		exit(1);
 }
 void World::addObject(std::map<std::pair<int, int>, sf::Color>& posColors) {
@@ -33,6 +44,7 @@ void World::transformObject(std::set<std::pair<int, int>>& from, std::map<std::p
 void World::update()
 {
 	texture.clear(sf::Color::Transparent);
+	sf::RectangleShape blockShape(sf::Vector2f(blockSize, blockSize));
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			blockShape.setPosition(j * blockSize, i * blockSize);
@@ -58,7 +70,7 @@ void World::setHeight(int height)
 	this->height = height;
 }
 
-void World::setPosition(sf::Vector2f& pos)
+void World::setPosition(sf::Vector2f pos)
 {
 	this->position = pos;
 }
