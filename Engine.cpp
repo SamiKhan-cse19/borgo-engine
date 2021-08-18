@@ -2,6 +2,7 @@
 
 Engine::Engine() : world(World(40.0f, 8, 8, sf::Vector2f(150.f, 50.f)))
 {
+    // set up window
     sf::Vector2f resolution;
     resolution.x = sf::VideoMode::getDesktopMode().width;
     resolution.y = sf::VideoMode::getDesktopMode().height;
