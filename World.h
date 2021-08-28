@@ -5,6 +5,10 @@
 #include <SFML/Graphics.hpp>
 #include <set>
 
+
+const sf::Color DEFAULT_COLOR = sf::Color::White;
+const sf::Color DEFAULT_BACKGROUND = sf::Color::Transparent;
+
 class World : public sf::Drawable
 {
 private:
@@ -14,14 +18,16 @@ private:
 	std::vector<std::vector<bool>> worldMap;	
 	std::vector<std::vector<sf::Color>> colorMap;
 	sf::RenderTexture texture;  // Everything drawn here first
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
 	World(float blockSize, unsigned int width, unsigned int height, sf::Vector2f position);
 	World(const World&);
-	void addObject(std::map<std::pair<int, int>, sf::Color>& posColors);
-	void clearObject(std::set<std::pair<int, int>>& pos);
-	void transformObject(std::set<std::pair<int, int>>& from, std::map<std::pair<int, int>, sf::Color>& to);
+	void addObject(const std::map<std::pair<int, int>, sf::Color>& posColors);
+	void addObject(const std::set<std::pair<int, int>>& posColors);
+	void clearObject(const std::set<std::pair<int, int>>& pos);
+	void transformObject(const std::set<std::pair<int, int>>& from, const std::map<std::pair<int, int>, sf::Color>& to);
+	bool transformObject(const std::set<std::pair<int, int>>& from, const int direction, const int step);
 	void update();
 
 	// Getters and Setters
@@ -35,5 +41,12 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	sf::Vector2f getPosition() const;
+
+	const enum TransformDirection {
+		RIGHT = 1,
+		LEFT = 1 << 1,
+		TOP = 1 << 2,
+		BOTTOM = 1 << 3
+	};
 
 };
