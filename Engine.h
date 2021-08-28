@@ -1,5 +1,6 @@
 #pragma once
 #include "World.h"
+#include "ScoreBoard.h"
 
 class Engine
 {

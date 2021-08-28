@@ -6,12 +6,13 @@
 #include <set>
 
 
-const sf::Color DEFAULT_COLOR = sf::Color::White;
-const sf::Color DEFAULT_BACKGROUND = sf::Color::Transparent;
-
 class World : public sf::Drawable
 {
 private:
+
+	const sf::Color DEFAULT_COLOR = sf::Color::White;
+	const sf::Color DEFAULT_BACKGROUND = sf::Color::Transparent;
+
 	float blockSize;
 	int width, height;
 	sf::Vector2f position;
@@ -36,7 +37,6 @@ public:
 	void setHeight(int height);
 	void setPosition(sf::Vector2f pos);
 	void setPosition(float x, float y);
-
 	float getBlockSize() const;
 	int getWidth() const;
 	int getHeight() const;
