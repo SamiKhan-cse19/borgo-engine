@@ -7,6 +7,7 @@ class Engine
 private:
 	sf::RenderWindow window;
 	World world;
+	ScoreBoard scoreboard;
 
 public:
 	Engine();
