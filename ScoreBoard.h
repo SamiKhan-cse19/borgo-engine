@@ -182,6 +182,8 @@ public:
     void addScoreList(const std::list<std::pair<std::string, int>>& newScoreList);
     int getScore(const int index) const;
     int getScore(const std::string key) const;
+	void editScore(const int index, const int value);
+	void editScore(const std::string key, const int value);
 
 	// Board related
 	void clearBoard();

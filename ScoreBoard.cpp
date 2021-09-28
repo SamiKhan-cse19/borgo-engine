@@ -111,7 +111,9 @@ int ScoreBoard::getScore(const int index) const
 	/**
 	* @return int
 	* returns the score value at index 'index'
+	* through outofbound error invalid index
 	*/
+	if (index < 0 || index >= scoreKeys.size()) throw Block_base::OutOfBound();
 	return scoreValues.at(scoreKeys.at(index));
 }
 
@@ -120,8 +122,22 @@ int ScoreBoard::getScore(const std::string key) const
 	/**
 	* @return int
 	* returns score value for key 'key'
+	* through outofbound error if key not found
 	*/
+	if (!scoreValues.count(key)) throw Block_base::OutOfBound();
 	return scoreValues.at(key);
+}
+
+void ScoreBoard::editScore(const int index, const int value)
+{
+	if (index < 0 || index >= scoreKeys.size()) throw Block_base::OutOfBound();
+	scoreValues[scoreKeys[index]] = value;
+}
+
+void ScoreBoard::editScore(const std::string key, const int value)
+{
+	if (!scoreValues.count(key)) throw Block_base::OutOfBound();
+	scoreValues[key] = value;
 }
 
 void ScoreBoard::clearBoard()

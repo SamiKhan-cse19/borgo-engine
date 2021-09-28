@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <iostream>
 #include <map>
 #include "Block_base.h"
 #include <set>
@@ -18,7 +17,8 @@ public:
 	void addObject(const std::map<std::pair<int, int>, sf::Color>& posColors);
 	void addObject(const std::set<std::pair<int, int>>& posColors);
 	void clearObject(const std::set<std::pair<int, int>>& pos);
-	void transformObject(const std::set<std::pair<int, int>>& from, const std::map<std::pair<int, int>, sf::Color>& to);
+	void transformObject(const std::set<std::pair<int, int>>& from, 
+		const std::map<std::pair<int, int>, sf::Color>& to);
 	bool transformObject(const std::set<std::pair<int, int>>& from, const int direction, const int step);
 	void update();
 
