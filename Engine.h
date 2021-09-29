@@ -1,11 +1,13 @@
 #pragma once
 #include "World.h"
+#include "ScoreBoard.h"
 
 class Engine
 {
 private:
 	sf::RenderWindow window;
 	World world;
+	ScoreBoard scoreboard;
 
 public:
 	Engine();

@@ -1,6 +1,7 @@
 #include "Engine.h"
 
-Engine::Engine() : world(World(40.0f, 8, 8, sf::Vector2f(150.f, 50.f)))
+Engine::Engine() : world(World(40.0f, 8, 8, sf::Vector2f(50.f, 50.f))), 
+    scoreboard(ScoreBoard(4.f, 80, 80, sf::Vector2f(370.f, 50.f)))
 {
     // set up window
     sf::Vector2f resolution;
@@ -8,14 +9,15 @@ Engine::Engine() : world(World(40.0f, 8, 8, sf::Vector2f(150.f, 50.f)))
     resolution.y = sf::VideoMode::getDesktopMode().height;
     
     window.create(sf::VideoMode(resolution.x, resolution.y),
-        "Simple Game Engine",
+        "Borgo Game Window",
         sf::Style::Titlebar | sf::Style::Close);
 
     window.setFramerateLimit(30);
 }
 
 Engine::Engine(float bSize, unsigned int wWidth, unsigned int wHeight, sf::Vector2f& wPosition) 
-    : world(World(bSize, wWidth, wHeight, wPosition))
+    : world(World(bSize, wWidth, wHeight, wPosition)), 
+    scoreboard(ScoreBoard(3.f, 400, 80, sf::Vector2f(wPosition.x+bSize*wWidth, 0)))
 {
     sf::Vector2f resolution;
     resolution.x = sf::VideoMode::getDesktopMode().width;
@@ -78,6 +80,7 @@ void Engine::update(float& dt)
     */
 
     world.update();
+    scoreboard.update();
 
 }
 
@@ -92,6 +95,7 @@ void Engine::render()
     window.clear();
 
     window.draw(world);
+    window.draw(scoreboard);
 
     window.display();
 
