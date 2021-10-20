@@ -4,7 +4,7 @@
 
 class Engine
 {
-private:
+protected:
 	sf::RenderWindow window;
 	World world;
 	ScoreBoard scoreboard;
@@ -12,9 +12,17 @@ private:
 public:
 	Engine();
 	Engine(float, unsigned int, unsigned int, sf::Vector2f&);
-	void start();
-	void input();
-	void update(float&);
-	void render();
+
+	std::vector<std::vector<bool>>& getWorldMap();
+	std::vector<std::vector<sf::Color>>& getColorMap();
+
+	// virtual functions
+	virtual void start();
+	virtual void input();
+	virtual void update(float&);
+	virtual void render();
+
+	// pure virtual functions
+	virtual std::set<std::pair<int, int>> getPlayerPosition() = 0;
 };
 

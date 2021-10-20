@@ -1,7 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <list>
-#include <iostream>
 #include "Block_base.h"
 
 /************************************************************************
@@ -156,32 +154,42 @@ static uint64_t font[128] = {
 
 
 class ScoreBoard :
-    public sf::Drawable, public Block_base
+	public sf::Drawable, public Block_base
 {
 private:
 	unsigned int lineGap; // in blocks
 	unsigned int padding; // in blocks
 	std::vector<std::string> scoreKeys;
-    std::map<std::string, int> scoreValues;
+	std::map<std::string, int> scoreValues;
+	sf::Color backgroundColor;
+	sf::Color textColor;
 
-	// private functions
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+protected:
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void drawScoreLine(std::string line, std::pair<int, int>& cursor);
+	void drawScoreLine(std::string line, std::pair<int, int>& cursor, sf::Color color);
+	virtual void updateColorMap();
 
 public:
-    ScoreBoard(float blockSize, int width, int height, sf::Vector2f position);
-    ScoreBoard(const ScoreBoard&);
-    void update();
+	ScoreBoard(float blockSize, int width, int height, sf::Vector2f position);
+	ScoreBoard(const ScoreBoard&);
+	void update();
 
 	// Exceptions
-	class Error{};
+	class Error {
+	public:
+		uint32_t x;
+		uint32_t y;
+		Error(uint32_t x, uint32_t y) : x(x), y(y) {
+		}
+	};
 
-    // Score related
-    void addScore(const std::pair<std::string, int>& newScore);
-    void addScore(const std::pair<std::string, int>& newScore, int index);
-    void addScoreList(const std::list<std::pair<std::string, int>>& newScoreList);
-    int getScore(const int index) const;
-    int getScore(const std::string key) const;
+	// Score related
+	void addScore(const std::pair<std::string, int>& newScore);
+	void addScore(const std::pair<std::string, int>& newScore, int index);
+	void addScoreList(const std::list<std::pair<std::string, int>>& newScoreList);
+	int getScore(const int index) const;
+	int getScore(const std::string key) const;
 	void editScore(const int index, const int value);
 	void editScore(const std::string key, const int value);
 
@@ -191,7 +199,11 @@ public:
 	// Getter and Setter
 	void setLineGap(unsigned int lineGap);
 	void setPadding(unsigned int padding);
+	void setTextColor(sf::Color color);
+	void setBackgroundColor(sf::Color color);
 	unsigned int getLineGap() const;
 	unsigned int getPadding() const;
+	sf::Color getTextColor() const;
+	sf::Color getBackgroundColor() const;
 };
 

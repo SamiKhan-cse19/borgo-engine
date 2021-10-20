@@ -4,13 +4,14 @@
 #include "Block_base.h"
 #include <set>
 
+class Engine; // Forward Declaration of Engine class
 
 class World : public sf::Drawable, public Block_base
 {
 private:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
+	friend class Engine;
 public:
 	World(float blockSize, unsigned int width, unsigned int height, sf::Vector2f position);
 	World(const World&);
@@ -23,10 +24,10 @@ public:
 	void update();
 
 	const enum TransformDirection {
-		RIGHT = 1,
-		LEFT = 1 << 1,
-		TOP = 1 << 2,
-		BOTTOM = 1 << 3
+		Right = 1,
+		Left = 1 << 1,
+		Top = 1 << 2,
+		Bottom = 1 << 3
 	};
 
 };
