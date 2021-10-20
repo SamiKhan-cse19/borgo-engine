@@ -30,6 +30,17 @@ Engine::Engine(float bSize, unsigned int wWidth, unsigned int wHeight, sf::Vecto
     window.setFramerateLimit(30);
 }
 
+std::vector<std::vector<bool>>& Engine::getWorldMap()
+{
+    return world.worldMap;
+}
+
+std::vector<std::vector<sf::Color>>& Engine::getColorMap()
+{
+    // TODO: insert return statement here
+    return world.colorMap;
+}
+
 void Engine::start()
 {
     sf::Clock clock;

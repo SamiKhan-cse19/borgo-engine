@@ -63,31 +63,31 @@ bool World::transformObject(const std::set<std::pair<int, int>>& from, const int
 	for (auto p : from) {
 		std::pair<int, int> newPos;
 		switch (direction) {
-		case TransformDirection::LEFT:
+		case TransformDirection::Left:
 			newPos.first = p.first - step;
 			break;
-		case TransformDirection::RIGHT:
+		case TransformDirection::Right:
 			newPos.first = p.first + step;
 			break;
-		case TransformDirection::TOP:
+		case TransformDirection::Top:
 			newPos.second = p.second - step;
 			break;
-		case TransformDirection::BOTTOM:
+		case TransformDirection::Bottom:
 			newPos.second = p.second + step;
 			break;
-		case TransformDirection::TOP|TransformDirection::LEFT:
+		case TransformDirection::Top|TransformDirection::Left:
 			newPos.first = p.first - step;
 			newPos.second = p.second - step;
 			break;
-		case TransformDirection::TOP | TransformDirection::RIGHT:
+		case TransformDirection::Top | TransformDirection::Right:
 			newPos.first = p.first + step;
 			newPos.second = p.second - step;
 			break;
-		case TransformDirection::BOTTOM | TransformDirection::LEFT:
+		case TransformDirection::Bottom | TransformDirection::Left:
 			newPos.first = p.first - step;
 			newPos.second = p.second + step;
 			break;
-		case TransformDirection::BOTTOM | TransformDirection::RIGHT:
+		case TransformDirection::Bottom | TransformDirection::Right:
 			newPos.first = p.first + step;
 			newPos.second = p.second + step;
 			break;

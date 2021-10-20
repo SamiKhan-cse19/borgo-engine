@@ -28,30 +28,41 @@ void ScoreBoard::drawScoreLine(std::string line, std::pair<int, int>& cursor)
 			for (int j = 8; j > 0; j--) {
 				int px = cursor.first + 8 - i;
 				int py = cursor.second + 8 - j;
-				if (px < 0 || py < 0 || px >= width || py >= height) throw Error();
+				if (px < 0 || py < 0 || px >= width || py >= height) throw Error(px, py);
 				bool color = font[id] & (1LL << (8 * (j - 1) + i - 1));
-				if (color) colorMap[py][px] = DEFAULT_COLOR;
+				if (color) colorMap[py][px] = textColor;
 			}
 		}
 		cursor.first += 8;
 	}
 }
 
-
-ScoreBoard::ScoreBoard(float blockSize, int width, int height, sf::Vector2f position)
-	: Block_base(blockSize, width, height, position)
+void ScoreBoard::drawScoreLine(std::string line, std::pair<int, int>& cursor, sf::Color color)
 {
-	setLineGap(0);
-	setPadding(0);
+	//TODO: Exception Handling - OutOfBound
+	for (auto c : line) {
+		/**
+		* For each character:
+		*  -get the index for font array
+		*  -nested for loop for 8x8 character
+		*  -get actual position from cursor
+		*  -increment cursor when done with a character
+		*/
+		int id = static_cast<int>(c);
+		for (int i = 8; i > 0; i--) {
+			for (int j = 8; j > 0; j--) {
+				int px = cursor.first + 8 - i;
+				int py = cursor.second + 8 - j;
+				if (px < 0 || py < 0 || px >= width || py >= height) throw Error(px, py);
+				bool hasColor = font[id] & (1LL << (8 * (j - 1) + i - 1));
+				if (hasColor) colorMap[py][px] = color;
+			}
+		}
+		cursor.first += 8;
+	}
 }
 
-ScoreBoard::ScoreBoard(const ScoreBoard& other)
-	: Block_base(other), lineGap(other.lineGap), padding(other.padding)
-{
-	
-}
-
-void ScoreBoard::update()
+void ScoreBoard::updateColorMap()
 {
 	std::pair<int, int> cursor(padding, padding);
 	for (auto s : scoreKeys) {
@@ -59,8 +70,28 @@ void ScoreBoard::update()
 		cursor.first = padding;
 		cursor.second += 8 + lineGap;
 	}
+}
 
-	texture.clear(DEFAULT_BACKGROUND);
+ScoreBoard::ScoreBoard(float blockSize, int width, int height, sf::Vector2f position)
+	: Block_base(blockSize, width, height, position)
+{
+	setLineGap(0);
+	setPadding(0);
+	setTextColor(DEFAULT_COLOR);
+	setBackgroundColor(DEFAULT_BACKGROUND);
+}
+
+ScoreBoard::ScoreBoard(const ScoreBoard& other)
+	: Block_base(other), lineGap(other.lineGap), padding(other.padding)
+{
+	setTextColor(other.textColor);
+	setBackgroundColor(other.backgroundColor);
+}
+
+void ScoreBoard::update()
+{
+	updateColorMap();
+	texture.clear(backgroundColor);
 
 	sf::RectangleShape blockShape(sf::Vector2f(blockSize, blockSize));
 	for (int i = 0; i < height; i++) {
@@ -98,7 +129,7 @@ void ScoreBoard::addScoreList(const std::list<std::pair<std::string, int>>& newS
 {
 	/**
 	* @return void
-	* adds a list of score key value pairs to this->scores 
+	* adds a list of score key value pairs to this->scores
 	*/
 	for (auto p : newScoreList) {
 		scoreKeys.push_back(p.first);
@@ -155,6 +186,15 @@ void ScoreBoard::setPadding(unsigned int padding)
 	this->padding = padding;
 }
 
+void ScoreBoard::setTextColor(sf::Color color)
+{
+	textColor = color;
+}
+
+void ScoreBoard::setBackgroundColor(sf::Color color)
+{
+	backgroundColor = color;
+}
 
 unsigned int ScoreBoard::getLineGap() const
 {
@@ -165,3 +205,14 @@ unsigned int ScoreBoard::getPadding() const
 {
 	return padding;
 }
+
+sf::Color ScoreBoard::getTextColor() const
+{
+	return textColor;
+}
+
+sf::Color ScoreBoard::getBackgroundColor() const
+{
+	return backgroundColor;
+}
+
