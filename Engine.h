@@ -2,27 +2,30 @@
 #include "World.h"
 #include "ScoreBoard.h"
 
-class Engine
+namespace borgo
 {
-protected:
-	sf::RenderWindow window;
-	World world;
-	ScoreBoard scoreboard;
+	class Engine
+	{
+	protected:
+		sf::RenderWindow window;
+		World world;
+		ScoreBoard scoreboard;
 
-public:
-	Engine();
-	Engine(float, unsigned int, unsigned int, sf::Vector2f&);
+	public:
+		Engine();
+		Engine(float, unsigned int, unsigned int, sf::Vector2f&);
+		Engine(World&, ScoreBoard&);
 
-	std::vector<std::vector<bool>>& getWorldMap();
-	std::vector<std::vector<sf::Color>>& getColorMap();
+		std::vector<std::vector<bool>>& getWorldMap();
+		std::vector<std::vector<sf::Color>>& getColorMap();
 
-	// virtual functions
-	virtual void start();
-	virtual void input();
-	virtual void update(float&);
-	virtual void render();
+		// virtual functions
+		virtual void start() = 0;
+		virtual void input() = 0;
+		virtual void update(float&) = 0;
+		virtual void render() = 0;
 
-	// pure virtual functions
-	virtual std::set<std::pair<int, int>> getPlayerPosition() = 0;
-};
+	};
 
+
+}

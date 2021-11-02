@@ -1,46 +1,38 @@
 #include "World.h"
+using namespace borgo;
 
 World::World(float blockSize, unsigned int width, unsigned int height, sf::Vector2f position)
-	: Block_base(blockSize, width, height, position) {
-	
+	: Block_base(blockSize, width, height, position) 
+{
+	backgroundColor = sf::Color::Black;
 }
 World::World(const World& other) 
 	: Block_base(other)
 {
 	
 }
-void World::addObject(const std::map<std::pair<int, int>, sf::Color>& posColors) {
-	/**
-	* @return void
-	* -add new object to the world window
-	* -set user defined color
-	*/
+
+void World::addObject(const std::map<std::pair<int, int>, sf::Color>& posColors) 
+{	
 	for (auto p : posColors) {
 		std::pair<int, int> pf = p.first;
 		worldMap[pf.second][pf.first] = 1;
 		colorMap[pf.second][pf.first] = p.second;
 	}
 }
+
 void World::addObject(const std::set<std::pair<int, int>>& pos)
 {
-	/**
-	* @return void
-	* -add new object to the world window
-	* -set default color white
-	*/
 	for (auto p : pos) {
 		worldMap[p.second][p.first] = 1;
 		colorMap[p.second][p.first] = DEFAULT_COLOR;
 	}
 }
-void World::clearObject(const std::set<std::pair<int, int>>& pos) {
-	/**
-	* @return void
-	* -clear object position in world
-	*/
+void World::clearObject(const std::set<std::pair<int, int>>& pos) 
+{
 	for (auto p : pos) {
 		worldMap[p.second][p.first] = 0;
-		colorMap[p.second][p.first] = DEFAULT_BACKGROUND;
+		colorMap[p.second][p.first] = backgroundColor;
 	}
 }
 
@@ -52,12 +44,6 @@ void World::transformObject(const std::set<std::pair<int, int>>& from, const std
 
 bool World::transformObject(const std::set<std::pair<int, int>>& from, const int direction, const int step)
 {
-	/**
-	* @return bool
-	* -copy object to step times direction
-	* -return if successful or not
-	*/
-
 	std::map<std::pair<int, int>, sf::Color> to;
 
 	for (auto p : from) {
@@ -104,12 +90,13 @@ bool World::transformObject(const std::set<std::pair<int, int>>& from, const int
 
 void World::update()
 {
-	texture.clear(DEFAULT_BACKGROUND);
+	texture.clear(backgroundColor);
 	sf::RectangleShape blockShape(sf::Vector2f(blockSize, blockSize));
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			blockShape.setPosition(j * blockSize, i * blockSize);
-			blockShape.setFillColor(colorMap[i][j]);
+			if(worldMap[i][j]) blockShape.setFillColor(colorMap[i][j]);
+			else blockShape.setFillColor(backgroundColor);
 			texture.draw(blockShape);
 		}
 	}
@@ -118,11 +105,6 @@ void World::update()
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	/**
-	* @return void
-	* Overridden draw function
-	* Draw contents of texture to target
-	*/
 	sf::Sprite sprite(texture.getTexture());
 	sprite.setPosition(position);
 	target.draw(sprite, states);
