@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Engine.h"
 
+using namespace borgo;
+
 
 int main() {
 

@@ -1,4 +1,5 @@
 #include "Block_base.h"
+using namespace borgo;
 
 Block_base::Block_base(float blockSize, unsigned int width, unsigned int height, sf::Vector2f position)
 	: blockSize(blockSize), width(width), height(height), position(position) {
@@ -70,4 +71,14 @@ sf::Vector2f Block_base::getPosition() const
 	* Getter for world top-left corner position
 	*/
 	return position;
+}
+
+void borgo::Block_base::setBackgroundColor(sf::Color bgColor)
+{
+	backgroundColor = bgColor;
+}
+
+sf::Color borgo::Block_base::getBackgroundColor() const
+{
+	return backgroundColor;
 }
